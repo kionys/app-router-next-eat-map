@@ -1,8 +1,8 @@
+"use client";
 import { ICommentApiResponse } from "@core/interfaces/store";
 import axios from "axios";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
-import { useRouter } from "next/router";
 import { toast } from "react-toastify";
 
 interface IPropsCommentList {
@@ -11,7 +11,6 @@ interface IPropsCommentList {
 }
 export const CommentList = ({ comments, displayStore }: IPropsCommentList) => {
   const { data: session } = useSession();
-  const router = useRouter();
 
   // 댓글 삭제
   const onClickDeleteComment = async (id: number) => {

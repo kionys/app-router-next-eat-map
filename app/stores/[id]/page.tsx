@@ -1,3 +1,4 @@
+"use client";
 import { Loader } from "@components/elements/loader";
 import { Comments } from "@components/templates/comments";
 import { KakaoMap } from "@components/templates/kakao-map";
@@ -7,7 +8,7 @@ import { IStore } from "@core/interfaces/store";
 import axios from "axios";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { useQuery } from "react-query";
 import { toast } from "react-toastify";
 
@@ -15,9 +16,9 @@ import { toast } from "react-toastify";
  * 맛집 상세 페이지
  * @author 김기원
  */
-const StoreDetailPage = () => {
+const StoreDetailPage = ({ params }: { params: { id: string } }) => {
   const router = useRouter();
-  const { id } = router.query;
+  const id = params.id;
   const { status } = useSession();
 
   const fetchStore = async () => {

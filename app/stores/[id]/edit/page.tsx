@@ -1,3 +1,4 @@
+"use client";
 import { Loader } from "@components/elements/loader";
 import { SearchAddress } from "@components/templates/search-address";
 import {
@@ -7,7 +8,7 @@ import {
 } from "@core/data/store";
 import { IStore } from "@core/interfaces/store";
 import axios from "axios";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { useQuery } from "react-query";
 import { toast } from "react-toastify";
@@ -16,9 +17,9 @@ import { toast } from "react-toastify";
  * 맛집 수정 페이지
  * @author 김기원
  */
-const StoreEditPage = () => {
+const StoreEditPage = ({ params }: { params?: { id?: string } }) => {
   const router = useRouter();
-  const { id } = router.query;
+  const id = params?.id;
 
   const fetchStore = async () => {
     const { data } = await axios(`/api/stores?id=${id}`);

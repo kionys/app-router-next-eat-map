@@ -1,8 +1,8 @@
+"use client";
 import { Pagination } from "@components/elements/pagination";
 import { ICommentApiResponse } from "@core/interfaces/store";
 import axios from "axios";
 import { useSession } from "next-auth/react";
-import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { useQuery } from "react-query";
 import { CommentForm } from "./comment-form";
@@ -10,11 +10,13 @@ import { CommentList } from "./comment-list";
 
 interface IPropsComments {
   storeId: number;
+  params?: {
+    page?: string;
+  };
 }
-export const Comments = ({ storeId }: IPropsComments) => {
+export const Comments = ({ storeId, params }: IPropsComments) => {
   const { status } = useSession();
-  const router = useRouter();
-  const { page = "1" }: any = router.query;
+  const page = params?.page || "1";
 
   const fetchComments = async () => {
     const { data } = await axios({
@@ -31,7 +33,8 @@ export const Comments = ({ storeId }: IPropsComments) => {
 
   useEffect(() => {
     refetch();
-  }, [router.query.page]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [page]);
   return (
     <>
       <div className="md:max-w-2xl py-8 px-3 mb-20 mx-auto">

@@ -1,5 +1,6 @@
 import { signOut, useSession } from "next-auth/react";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
+
 import { useState } from "react";
 import { AiOutlineClose } from "react-icons/ai";
 import { BiMenu } from "react-icons/bi";

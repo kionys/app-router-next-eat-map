@@ -1,3 +1,4 @@
+"use client";
 import { IStore } from "@core/interfaces/store";
 import { currentStoreState, locationState, mapState } from "atom";
 import { useCallback, useEffect } from "react";

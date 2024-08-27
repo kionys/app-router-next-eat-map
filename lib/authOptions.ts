@@ -1,17 +1,14 @@
 import { PrismaAdapter } from "@auth/prisma-adapter";
-// import { PrismaClient } from "@prisma/client";
 import prisma from "db";
-import NextAuth, { NextAuthOptions } from "next-auth";
+import { AuthOptions } from "next-auth";
 import { Adapter } from "next-auth/adapters";
 import GoogleProvider from "next-auth/providers/google";
 import KakaoProvider from "next-auth/providers/kakao";
 import NaverProvider from "next-auth/providers/naver";
 
-// const prisma = new PrismaClient();
-
-export const authOptions: NextAuthOptions = {
+export const authOptions: AuthOptions = {
   session: {
-    strategy: "jwt" as const, // jwt 기반의 session을 사용
+    strategy: "jwt", // jwt 기반의 session을 사용
     maxAge: 60 * 60 * 24, // 24시간으로 설정
     updateAge: 60 * 60 * 2, // session 업데이트 주기, 2시간으로 설정
   },
@@ -50,4 +47,3 @@ export const authOptions: NextAuthOptions = {
     },
   },
 };
-export default NextAuth(authOptions);

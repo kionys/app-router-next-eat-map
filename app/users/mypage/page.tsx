@@ -1,10 +1,11 @@
+"use client";
+/* eslint-disable @next/next/no-img-element */
 import { Pagination } from "@components/elements/pagination";
 import { CommentList } from "@components/templates/comments/comment-list";
 import { ICommentApiResponse } from "@core/interfaces/store";
 import axios from "axios";
 import { signOut, useSession } from "next-auth/react";
-import { useRouter } from "next/router";
-import { useEffect } from "react";
+import { useSearchParams } from "next/navigation";
 import { useQuery } from "react-query";
 
 /**
@@ -12,15 +13,15 @@ import { useQuery } from "react-query";
  * @author 김기원
  */
 const MyPage = () => {
-  const { data: session } = useSession();
-  const router = useRouter();
-  const { page = "1" }: any = router.query;
+  // https://github.com/vercel/next.js/discussions/61654
+  const searchParams = useSearchParams();
+  const page = searchParams?.get("page") || "1";
 
   const fetchComments = async () => {
-    const { data } = await axios({
-      method: "GET",
-      url: `/api/comments?limit=10&page=${page}&user=${true}`,
-    });
+    const { data } = await axios(
+      `/api/comments?&limit=5&page=${page}&user=${true}`,
+    );
+
     return data as ICommentApiResponse;
   };
 
@@ -29,7 +30,7 @@ const MyPage = () => {
     fetchComments,
   );
 
-  useEffect(() => {}, []);
+  const { data: session } = useSession();
   return (
     <div className="md:max-w-5xl mx-auto px-4 py-8">
       <div className="px-4 sm:px-0">
@@ -55,7 +56,7 @@ const MyPage = () => {
               이메일
             </dt>
             <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-              {session?.user.email || "-"}
+              {session?.user.email}
             </dd>
           </div>
           <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
@@ -64,11 +65,11 @@ const MyPage = () => {
             </dt>
             <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
               <img
-                src={session?.user.image ?? "/images/markers/default.png"}
                 alt="프로필 이미지"
                 width={48}
                 height={48}
-                className={session?.user.image ? "rounded-full w-12 h-12" : ""}
+                className="rounded-full w-12 h-12"
+                src={session?.user.image || "/images/markers/default.png"}
               />
             </dd>
           </div>
@@ -96,14 +97,15 @@ const MyPage = () => {
           댓글 리스트
         </p>
       </div>
-      <CommentList comments={comments} displayStore={true} />
 
+      <CommentList comments={comments} displayStore={true} />
       <Pagination
         total={comments?.totalPage}
         page={page}
-        pathname={`/users/mypage`}
+        pathname="/users/mypage"
       />
     </div>
   );
 };
+
 export default MyPage;

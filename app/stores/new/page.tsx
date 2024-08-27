@@ -1,3 +1,4 @@
+"use client";
 import { SearchAddress } from "@components/templates/search-address";
 import {
   CATEGORY_ARR,
@@ -6,7 +7,7 @@ import {
 } from "@core/data/store";
 import { IStore } from "@core/interfaces/store";
 import axios from "axios";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 /**

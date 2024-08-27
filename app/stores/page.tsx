@@ -1,3 +1,4 @@
+"use client";
 import { Loader } from "@components/elements/loader";
 import { Loading } from "@components/elements/loading";
 import { SearchFilter } from "@components/templates/search-filter";
@@ -6,7 +7,7 @@ import { useIntersectionObserver } from "@core/hook/useIntersectionObserver";
 import { IStore } from "@core/interfaces/store";
 import { searchState } from "atom";
 import axios from "axios";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { Fragment, useCallback, useEffect, useRef } from "react";
 import { useInfiniteQuery } from "react-query";
 import { useRecoilValue } from "recoil";

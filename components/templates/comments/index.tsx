@@ -3,6 +3,7 @@ import { Pagination } from "@components/elements/pagination";
 import { ICommentApiResponse } from "@core/interfaces/store";
 import axios from "axios";
 import { useSession } from "next-auth/react";
+import { useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 import { useQuery } from "react-query";
 import { CommentForm } from "./comment-form";
@@ -10,13 +11,11 @@ import { CommentList } from "./comment-list";
 
 interface IPropsComments {
   storeId: number;
-  params?: {
-    page?: string;
-  };
 }
-export const Comments = ({ storeId, params }: IPropsComments) => {
+export const Comments = ({ storeId }: IPropsComments) => {
   const { status } = useSession();
-  const page = params?.page || "1";
+  const searchParams = useSearchParams();
+  const page = searchParams?.get("page") || "1";
 
   const fetchComments = async () => {
     const { data } = await axios({

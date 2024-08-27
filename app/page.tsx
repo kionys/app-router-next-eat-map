@@ -8,19 +8,8 @@ import { StoreBox } from "components/templates/store-box";
 export const dynamic = "force-dynamic"; // Next.js가 동적 렌더링을 사용하도록 강제
 
 const Home = async () => {
-  let stores: IStore[] = [];
-  try {
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/api/stores`,
-      { cache: "no-store" },
-    );
+  const stores: IStore[] = await getData();
 
-    if (!response.ok) throw new Error("Failed to fetch data");
-
-    stores = await response.json();
-  } catch (error) {
-    console.error("Error fetching data:", error);
-  }
   return (
     <>
       <KakaoMap />
@@ -31,3 +20,19 @@ const Home = async () => {
   );
 };
 export default Home;
+
+const getData = async () => {
+  try {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/stores`, {
+      cache: "no-store",
+    });
+
+    if (!res.ok) {
+      throw new Error("Failed to fetch data");
+    }
+
+    return res.json();
+  } catch (e) {
+    console.log(e);
+  }
+};
